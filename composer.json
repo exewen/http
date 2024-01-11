@@ -1,0 +1,49 @@
+{
+    "name": "exewen/http",
+    "description": "A http component for Exewen.",
+    "authors": [
+        {
+            "name": "exewen",
+            "email": "exeweb@163.com"
+        }
+    ],
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "php",
+        "exewen",
+        "http"
+    ],
+    "require": {
+        "php": ">=7.4",
+        "exewen/di": "*",
+        "exewen/logger": "*",
+        "guzzlehttp/guzzle": "^7",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7 | ^6.5 | ^7.5 | ^8.4 | ^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Exewen\\Http\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ExewenTest\\Http\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        },
+        "exewen": {
+            "config": "Exewen\\Http\\ConfigRegister"
+        }
+    }
+}
