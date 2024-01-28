@@ -4,7 +4,7 @@ composer require exewen/http
 ```
 ## 复制配置
 ```sh
-cp -rf ./publish/exewen /you_project/config
+cp -rf ./publish/exewen /your_project/config
 ``` 
 ## 初始化
 ```php
