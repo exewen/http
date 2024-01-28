@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 class HttpManager
 {
     protected array $channels = [];
+    
     private ConfigInterface $config;
 
     private array $httpRequestBaseOptions = [];
@@ -29,11 +30,21 @@ class HttpManager
         return $this->getDriver($driver);
     }
 
+    /**
+     * 获取 driver
+     * @param string $name
+     * @return Client
+     */
     protected function getDriver(string $name): Client
     {
         return $this->channels[$name] ?? $this->resolve($name);
     }
 
+    /**
+     * 构建 client
+     * @param string $name
+     * @return Client
+     */
     protected function resolve(string $name): Client
     {
         $config = $this->configurationFor($name);
@@ -54,11 +65,21 @@ class HttpManager
 
     }
 
+    /**
+     * 获取channels配置
+     * @param $name
+     * @return mixed
+     */
     protected function configurationFor($name)
     {
         return $this->config->get("http.channels.{$name}");
     }
 
+    /**
+     * 过滤空值
+     * @param array $input
+     * @return array
+     */
     protected function filter(array $input): array
     {
         $result = [];
@@ -70,6 +91,15 @@ class HttpManager
         return $result;
     }
 
+    /**
+     * 发送请求
+     * @param Client $driver
+     * @param $url
+     * @param string $method
+     * @param array $options
+     * @return ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     protected function sendRequest(Client $driver, $url, string $method, array $options = []): ResponseInterface
     {
         $options = $this->getHttpRequestOptions($options);
@@ -81,16 +111,32 @@ class HttpManager
         return $response;
     }
 
+    /**
+     * 合并client配置
+     * @param $params
+     * @return array
+     */
     private function getHttpRequestOptions($params): array
     {
         return array_merge($this->httpRequestBaseOptions, $params);
     }
 
+    /**
+     * 构建url
+     * @param array $config
+     * @param string $path
+     * @return string
+     */
     protected function buildUrl(array $config, string $path = ''): string
     {
         return ($config['ssl'] ? 'https' : 'http') . '://' . $config['host'] . ':' . $config['port'] . $config['prefix'] . $path;
     }
 
+    /**
+     * 构建 middleware
+     * @param array $config
+     * @return HandlerStack
+     */
     private function getHandlerStack(array $config): HandlerStack
     {
         $handler = $config['handler'] ?? [];
@@ -107,6 +153,12 @@ class HttpManager
         return $stack;
     }
 
+    /**
+     * 设置公用client配置
+     * @param string $name
+     * @param $config
+     * @return void
+     */
     private function initHttpRequestBaseOptions(string $name, $config)
     {
         $this->httpRequestBaseOptions[$name] = [

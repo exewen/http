@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Exewen\Http;
 
-
 use Exewen\Http\Contract\HttpClientInterface;
 use Exewen\Http\Middleware\HeaderNacosMiddleware;
 use Exewen\Http\Middleware\LogMiddleware;
@@ -22,7 +21,7 @@ class ConfigRegister
                 'channels' => [
                     'nacos' => [
                         'ssl' => false,
-                        'host' => '127.0.0.0',
+                        'host' => '127.0.0.1',
                         'port' => '8848',
                         'prefix' => null,
                         'connect_timeout' => 3,
@@ -31,13 +30,13 @@ class ConfigRegister
                             HeaderNacosMiddleware::class,
                             LogMiddleware::class,
                         ],
-                        'extra'=>[
+                        'extra' => [
                             'header' => [
                                 'identity_key' => 'xxx',
                                 'identity_value' => 'xxx',
                             ],
                         ]
-                    ],
+                    ]
                 ]
 
             ],

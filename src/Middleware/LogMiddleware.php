@@ -33,6 +33,13 @@ class LogMiddleware
         };
     }
 
+    /**
+     * 记录成功日志
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param $start
+     * @return void
+     */
     protected function logSaveOk(RequestInterface $request, ResponseInterface $response, $start)
     {
         $cost = round(microtime(true) - $start, 3); // 保留3位小数点
@@ -52,6 +59,13 @@ class LogMiddleware
         $this->logger->request(json_encode($log, JSON_UNESCAPED_UNICODE));
     }
 
+    /**
+     * 记录失败日志
+     * @param RequestInterface $request
+     * @param $errorMsg
+     * @param $start
+     * @return void
+     */
     protected function logSaveError(RequestInterface $request, $errorMsg, $start)
     {
         $cost = round(microtime(true) - $start, 3); // 保留3位小数点

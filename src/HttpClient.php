@@ -9,6 +9,16 @@ use Exewen\Http\Contract\HttpClientInterface;
 class HttpClient extends HttpManager implements HttpClientInterface
 {
 
+    /**
+     * get
+     * @param string $driver
+     * @param string $url
+     * @param array $params
+     * @param array $header
+     * @param array $options
+     * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function get(string $driver, string $url, array $params = [], array $header = [], array $options = []): string
     {
         if (!empty($params)) {
@@ -22,6 +32,17 @@ class HttpClient extends HttpManager implements HttpClientInterface
         return $response->getBody()->getContents();
     }
 
+    /**
+     * post
+     * @param string $driver
+     * @param string $url
+     * @param array $params
+     * @param array $header
+     * @param array $options
+     * @param string $type
+     * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function post(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'form_params'): string
     {
         if (!empty($params)) {
@@ -35,6 +56,17 @@ class HttpClient extends HttpManager implements HttpClientInterface
         return $response->getBody()->getContents();
     }
 
+    /**
+     * put
+     * @param string $driver
+     * @param string $url
+     * @param array $params
+     * @param array $header
+     * @param array $options
+     * @param string $type
+     * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function put(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'form_params'): string
     {
         if (!empty($params)) {
