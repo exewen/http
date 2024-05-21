@@ -16,8 +16,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "exewen/di": "^0.1",
-        "exewen/logger": "^0.1",
+        "exewen/logger": "dev-develop",
         "guzzlehttp/guzzle": "^7",
         "ext-json": "*"
     },
