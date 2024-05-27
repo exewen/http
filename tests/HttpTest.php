@@ -11,11 +11,12 @@ use PHPUnit\Framework\TestCase;
 
 class HttpTest extends TestCase
 {
-    private Container $app;
-    private string $serviceName = 'pms-user';
-    private string $dataId = 'pms-user.env';
-    private string $group = 'DEFAULT_GROUP';
-    private string $namespaceId = 'prd';
+//    private Container $app;
+    private $app;
+    private $serviceName = 'pms-user';
+    private $dataId = 'pms-user.env';
+    private $group = 'DEFAULT_GROUP';
+    private $namespaceId = 'prd';
 
     public function __construct()
     {

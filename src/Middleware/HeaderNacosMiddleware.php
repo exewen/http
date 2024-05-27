@@ -6,10 +6,14 @@ use Psr\Http\Message\RequestInterface;
 
 class HeaderNacosMiddleware
 {
-    private array $config;
+//    private string $config;
+    private $config;
+    private $channel;
 
-    public function __construct(array $config)
+
+    public function __construct(string $channel, array $config)
     {
+        $this->channel = $channel;
         $this->config = $config;
     }
 

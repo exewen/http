@@ -15,9 +15,9 @@
         "http"
     ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=7.3",
         "exewen/logger": "dev-develop",
-        "guzzlehttp/guzzle": "^7",
+        "guzzlehttp/guzzle": "^7|^6.2",
         "ext-json": "*"
     },
     "require-dev": {
@@ -33,7 +33,7 @@
             "ExewenTest\\Http\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "config": {
         "sort-packages": true
     },

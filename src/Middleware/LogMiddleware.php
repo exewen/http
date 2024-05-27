@@ -9,9 +9,10 @@ use Psr\Http\Message\ResponseInterface;
 
 class LogMiddleware
 {
-    private LoggerInterface $logger;
+//    private LoggerInterface $logger;
+    private $logger;
 
-    public function __construct(array $config)
+    public function __construct(string $channel, array $config)
     {
         $this->logger = Container::getInstance()->get(LoggerInterface::class);
     }
@@ -44,15 +45,21 @@ class LogMiddleware
     {
         $cost = round(microtime(true) - $start, 3); // 保留3位小数点
         $request->getBody()->rewind();
-        $log = [
-            'req_cost' => $cost,
-            'method' => $request->getMethod(),
-            'url' => $request->getUri(),
-            'header' => $request->getHeaders(),
-            'request_contents' => $request->getBody()->getContents(),
-            'response_code' => $response->getStatusCode(),
-            'response_cost' => $cost,
-            'response_header' => $response->getHeaders(),
+        $uri         = $request->getUri();
+        $fullUrl     = $uri->getScheme() . '://' . $uri->getHost() . $uri->getPath();
+        $queryString = $uri->getQuery();
+        if (!empty($queryString)) {
+            $fullUrl .= '?' . $queryString;
+        }
+        $log     = [
+            'req_cost'          => $cost,
+            'method'            => $request->getMethod(),
+            'url'               => $fullUrl,
+            'header'            => json_encode($request->getHeaders(), JSON_UNESCAPED_UNICODE),
+            'request_contents'  => $request->getBody()->getContents(),
+            'response_code'     => $response->getStatusCode(),
+            'response_cost'     => $cost,
+            'response_header'   => json_encode($response->getHeaders(), JSON_UNESCAPED_UNICODE),
             'response_contents' => $response->getBody()->getContents(),
         ];
         $response->getBody()->rewind();
@@ -71,13 +78,13 @@ class LogMiddleware
         $cost = round(microtime(true) - $start, 3); // 保留3位小数点
         $request->getBody()->rewind();
         $log = [
-            'req_cost' => $cost,
-            'method' => $request->getMethod(),
-            'url' => $request->getUri(),
-            'header' => $request->getHeaders(),
+            'req_cost'         => $cost,
+            'method'           => $request->getMethod(),
+            'url'              => $request->getUri(),
+            'header'           => $request->getHeaders(),
             'request_contents' => $request->getBody()->getContents(),
-            'response_cost' => $cost,
-            'error_message' => $errorMsg,
+            'response_cost'    => $cost,
+            'error_message'    => $errorMsg,
         ];
         $this->logger->error(json_encode($log, JSON_UNESCAPED_UNICODE));
     }

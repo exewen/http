@@ -11,11 +11,14 @@ use Psr\Http\Message\ResponseInterface;
 
 class HttpManager
 {
-    protected array $channels = [];
-    
-    private ConfigInterface $config;
+//    protected array $channels = [];
+    protected $channels = [];
 
-    private array $httpRequestBaseOptions = [];
+//    private ConfigInterface $config;
+    private $config;
+
+//    private array $httpRequestBaseOptions = [];
+    private $httpRequestBaseOptions = [];
 
     public function __construct(ConfigInterface $config)
     {
@@ -53,14 +56,15 @@ class HttpManager
         }
         $this->initHttpRequestBaseOptions($name, $config);
 
-        $stack = $this->getHandlerStack($config);
-
+        $stack = $this->getHandlerStack($name, $config);
         return $this->channels[$name] = new Client([
             'handler' => $stack,
             // Base URI 用于相对请求
             'base_uri' => $this->buildUrl($config),
             // 您可以设置任意数量的默认请求选项。
             'timeout' => $config['timeout'],
+            // SSL证书验证
+            'verify' => $config['verify'] ?? true,
         ]);
 
     }
@@ -129,15 +133,20 @@ class HttpManager
      */
     protected function buildUrl(array $config, string $path = ''): string
     {
-        return ($config['ssl'] ? 'https' : 'http') . '://' . $config['host'] . ':' . $config['port'] . $config['prefix'] . $path;
+        if (isset($config['port']) && !empty($config['port'])) {
+            return ($config['ssl'] ? 'https' : 'http') . '://' . $config['host'] . ':' . $config['port'] . $config['prefix'] . $path;
+        } else {
+            return ($config['ssl'] ? 'https' : 'http') . '://' . $config['host'] . $config['prefix'] . $path;
+        }
     }
 
     /**
      * 构建 middleware
+     * @param string $name
      * @param array $config
      * @return HandlerStack
      */
-    private function getHandlerStack(array $config): HandlerStack
+    private function getHandlerStack(string $name, array $config): HandlerStack
     {
         $handler = $config['handler'] ?? [];
 
@@ -145,7 +154,7 @@ class HttpManager
             $stack = new HandlerStack();
             $stack->setHandler(new CurlHandler());
             foreach ($handler as $middleware) {
-                $stack->push(new $middleware($config), $middleware);
+                $stack->push(new $middleware($name, $config), $middleware);
             }
         } else {
             $stack = HandlerStack::create();
