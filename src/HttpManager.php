@@ -179,9 +179,9 @@ class HttpManager
 
         // 新增代理配置
         if (isset($config['proxy']['switch']) && $config['proxy']['switch'] === true) {
-            $temp = $config['proxy']['switch'];
+            $temp = $config['proxy'];
             unset($temp['switch']);
-            $baseConfig['proxy'] = $temp;
+            $this->httpRequestBaseOptions['proxy'] = $temp;
         }
 
         $this->httpRequestBaseOptions[$name] = $baseConfig;
