@@ -109,7 +109,7 @@ class HttpManager
         $options  = $this->getHttpRequestOptions($options);
         $response = $driver->request($method, $url, $options);
         if ($response->getStatusCode() !== 200) {
-            $errorMsg = sprintf("response error(%d):%s url:%s method:%s options:%s", $response->getStatusCode(), $response->getReasonPhrase(), $url, $method, json_encode($options));
+            $errorMsg = sprintf("response_code: %d request_contents: %s", $response->getStatusCode(), $response->getBody()->getContents());
             throw new HttpClientException($errorMsg);
         }
         return $response;
