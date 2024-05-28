@@ -58,13 +58,13 @@ class HttpManager
 
         $stack = $this->getHandlerStack($name, $config);
         return $this->channels[$name] = new Client([
-            'handler' => $stack,
+            'handler'  => $stack,
             // Base URI 用于相对请求
             'base_uri' => $this->buildUrl($config),
             // 您可以设置任意数量的默认请求选项。
-            'timeout' => $config['timeout'],
+            'timeout'  => $config['timeout'],
             // SSL证书验证
-            'verify' => $config['verify'] ?? true,
+            'verify'   => $config['verify'] ?? true,
         ]);
 
     }
@@ -106,7 +106,7 @@ class HttpManager
      */
     protected function sendRequest(Client $driver, $url, string $method, array $options = []): ResponseInterface
     {
-        $options = $this->getHttpRequestOptions($options);
+        $options  = $this->getHttpRequestOptions($options);
         $response = $driver->request($method, $url, $options);
         if ($response->getStatusCode() !== 200) {
             $errorMsg = sprintf("response error(%d):%s url:%s method:%s options:%s", $response->getStatusCode(), $response->getReasonPhrase(), $url, $method, json_encode($options));
@@ -170,12 +170,21 @@ class HttpManager
      */
     private function initHttpRequestBaseOptions(string $name, $config)
     {
-        $this->httpRequestBaseOptions[$name] = [
+        $baseConfig = [
             'connect_timeout' => $config['connect_timeout'],
-            'timeout' => $config['timeout'], //请求超时时间
-            'verify' => false,
-            'debug' => false,
+            'timeout'         => $config['timeout'], //请求超时时间
+            'verify'          => false,
+            'debug'           => false,
         ];
+
+        // 新增代理配置
+        if (isset($config['proxy']['switch']) && $config['proxy']['switch'] === true) {
+            $temp = $config['proxy']['switch'];
+            unset($temp['switch']);
+            $baseConfig['proxy'] = $temp;
+        }
+
+        $this->httpRequestBaseOptions[$name] = $baseConfig;
     }
 
 }
