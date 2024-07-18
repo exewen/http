@@ -28,7 +28,7 @@ interface HttpClientInterface
      * @param string $type
      * @return string
      */
-    public function post(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'form_params'): string;
+    public function post(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'json'): string;
 
     /**
      * put 请求
@@ -41,6 +41,6 @@ interface HttpClientInterface
      * @param string $type
      * @return string
      */
-    public function put(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'form_params'): string;
+    public function put(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'json'): string;
 
 }
