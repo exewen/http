@@ -43,7 +43,7 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'form_params'): string
+    public function post(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'json'): string
     {
         if (!empty($params)) {
             $options[$type] = $this->filter($params);
@@ -67,7 +67,7 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function put(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'form_params'): string
+    public function put(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'json'): string
     {
         if (!empty($params)) {
             $options[$type] = $this->filter($params);
