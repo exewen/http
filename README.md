@@ -12,7 +12,7 @@ cp -rf ./publish/exewen /your_project/config
 ``` 
 ## 请求
 ```php
-# 初始化DI
+# 初始化 DI
 $app = new Container();
 $app->setProviders([LoggerProvider::class,LoggerProvider::class]);
 $this->app = $app;
