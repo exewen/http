@@ -39,7 +39,7 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $params
      * @param array $header
      * @param array $options
-     * @param string $type
+     * @param string $type json(json) form_params(x-www-form-urlencoded) multipart(multipart/form-data) query headers body
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

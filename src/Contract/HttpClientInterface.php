@@ -25,7 +25,7 @@ interface HttpClientInterface
      * @param array $params
      * @param array $header
      * @param array $options
-     * @param string $type
+     * @param string $type json(json) form_params(x-www-form-urlencoded) multipart(multipart/form-data) query headers body
      * @return string
      */
     public function post(string $driver, string $url, array $params = [], array $header = [], array $options = [], string $type = 'json'): string;
