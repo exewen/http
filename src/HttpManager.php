@@ -98,16 +98,16 @@ class HttpManager
     /**
      * 发送请求
      * @param Client $driver
-     * @param $url
+     * @param $uri
      * @param string $method
      * @param array $options
      * @return ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function sendRequest(Client $driver, $url, string $method, array $options = []): ResponseInterface
+    protected function sendRequest(Client $driver, $uri, string $method, array $options = []): ResponseInterface
     {
         $options  = $this->getHttpRequestOptions($options);
-        $response = $driver->request($method, $url, $options);
+        $response = $driver->request($method, $uri, $options);
         if (!in_array($response->getStatusCode(), [
             200, 201, 202, 204, 203, 205, 206
         ])) {
