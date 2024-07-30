@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Exewen\Http\Contract;
 
+use Exewen\Http\Constants\HttpEnum;
+
 interface HttpClientInterface
 {
     /**
@@ -37,7 +39,7 @@ interface HttpClientInterface
      * @param string $type json(json) form_params(x-www-form-urlencoded) multipart(multipart/form-data) query headers body
      * @return string
      */
-    public function post(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = 'json'): string;
+    public function post(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string;
 
     /**
      * 更新某个资源的全部内容 （幂等）
@@ -49,7 +51,7 @@ interface HttpClientInterface
      * @param string $type
      * @return string
      */
-    public function put(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = 'json'): string;
+    public function put(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string;
 
     /**
      * 对资源进行部分更新
@@ -61,7 +63,7 @@ interface HttpClientInterface
      * @param string $type
      * @return string
      */
-    public function patch(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = 'json'): string;
+    public function patch(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string;
 
     /**
      * 删除指定资源

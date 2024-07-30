@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Exewen\Http;
 
+use Exewen\Http\Constants\HttpEnum;
 use Exewen\Http\Contract\HttpClientInterface;
 
 class HttpClient extends HttpManager implements HttpClientInterface
@@ -22,10 +23,10 @@ class HttpClient extends HttpManager implements HttpClientInterface
     public function get(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
         if (!empty($params)) {
-            $options['query'] = $this->filter($params);
+            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
         }
         if (!empty($header)) {
-            $options['headers'] = $header;
+            $options[HttpEnum::TYPE_HEADERS] = $header;
         }
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'GET', $options);
 
@@ -45,10 +46,10 @@ class HttpClient extends HttpManager implements HttpClientInterface
     public function head(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
         if (!empty($params)) {
-            $options['query'] = $this->filter($params);
+            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
         }
         if (!empty($header)) {
-            $options['headers'] = $header;
+            $options[HttpEnum::TYPE_HEADERS] = $header;
         }
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'HEAD', $options);
 
@@ -66,13 +67,13 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = 'json'): string
+    public function post(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
     {
         if (!empty($params)) {
             $options[$type] = $this->filter($params);
         }
         if (!empty($header)) {
-            $options['headers'] = $header;
+            $options[HttpEnum::TYPE_HEADERS] = $header;
         }
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'POST', $options);
 
@@ -90,13 +91,13 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function put(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = 'json'): string
+    public function put(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
     {
         if (!empty($params)) {
             $options[$type] = $this->filter($params);
         }
         if (!empty($header)) {
-            $options['headers'] = $header;
+            $options[HttpEnum::TYPE_HEADERS] = $header;
         }
 
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'PUT', $options);
@@ -114,13 +115,13 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param string $type
      * @return string
      */
-    public function patch(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = 'json'): string
+    public function patch(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
     {
         if (!empty($params)) {
             $options[$type] = $this->filter($params);
         }
         if (!empty($header)) {
-            $options['headers'] = $header;
+            $options[HttpEnum::TYPE_HEADERS] = $header;
         }
 
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'PATCH', $options);
@@ -141,10 +142,10 @@ class HttpClient extends HttpManager implements HttpClientInterface
     public function delete(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
         if (!empty($params)) {
-            $options['query'] = $this->filter($params);
+            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
         }
         if (!empty($header)) {
-            $options['headers'] = $header;
+            $options[HttpEnum::TYPE_HEADERS] = $header;
         }
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'DELETE', $options);
 
@@ -164,10 +165,10 @@ class HttpClient extends HttpManager implements HttpClientInterface
     public function options(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
         if (!empty($params)) {
-            $options['query'] = $this->filter($params);
+            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
         }
         if (!empty($header)) {
-            $options['headers'] = $header;
+            $options[HttpEnum::TYPE_HEADERS] = $header;
         }
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'OPTIONS', $options);
 
