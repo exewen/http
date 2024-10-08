@@ -4,12 +4,16 @@ namespace Exewen\Http\Middleware;
 
 use Exewen\Di\Container;
 use Exewen\Logger\Contract\LoggerInterface;
+use Exewen\Logger\Logger;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class LogMiddleware
 {
 //    private LoggerInterface $logger;
+    /**
+     * @var Logger
+     */
     private $logger;
 
     public function __construct(string $channel, array $config)
