@@ -22,14 +22,9 @@ class HttpClient extends HttpManager implements HttpClientInterface
      */
     public function get(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
-        if (!empty($params)) {
-            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
-        }
-        if (!empty($header)) {
-            $options[HttpEnum::TYPE_HEADERS] = $header;
-        }
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'GET', $options);
+        $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
 
+        $response = $this->sendRequest($this->getDriver($driver), $uri, 'GET', $options);
         return $response->getBody()->getContents();
     }
 
@@ -45,14 +40,9 @@ class HttpClient extends HttpManager implements HttpClientInterface
      */
     public function head(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
-        if (!empty($params)) {
-            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
-        }
-        if (!empty($header)) {
-            $options[HttpEnum::TYPE_HEADERS] = $header;
-        }
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'HEAD', $options);
+        $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
 
+        $response = $this->sendRequest($this->getDriver($driver), $uri, 'HEAD', $options);
         return $response->getBody()->getContents();
     }
 
@@ -69,14 +59,9 @@ class HttpClient extends HttpManager implements HttpClientInterface
      */
     public function post(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
     {
-        if (!empty($params)) {
-            $options[$type] = $this->filter($params);
-        }
-        if (!empty($header)) {
-            $options[HttpEnum::TYPE_HEADERS] = $header;
-        }
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'POST', $options);
+        $options = $this->optionsHandle($params, $header, $options, $type);
 
+        $response = $this->sendRequest($this->getDriver($driver), $uri, 'POST', $options);
         return $response->getBody()->getContents();
     }
 
@@ -93,15 +78,9 @@ class HttpClient extends HttpManager implements HttpClientInterface
      */
     public function put(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
     {
-        if (!empty($params)) {
-            $options[$type] = $this->filter($params);
-        }
-        if (!empty($header)) {
-            $options[HttpEnum::TYPE_HEADERS] = $header;
-        }
+        $options = $this->optionsHandle($params, $header, $options, $type);
 
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'PUT', $options);
-
         return $response->getBody()->getContents();
     }
 
@@ -117,15 +96,9 @@ class HttpClient extends HttpManager implements HttpClientInterface
      */
     public function patch(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
     {
-        if (!empty($params)) {
-            $options[$type] = $this->filter($params);
-        }
-        if (!empty($header)) {
-            $options[HttpEnum::TYPE_HEADERS] = $header;
-        }
+        $options = $this->optionsHandle($params, $header, $options, $type);
 
         $response = $this->sendRequest($this->getDriver($driver), $uri, 'PATCH', $options);
-
         return $response->getBody()->getContents();
     }
 
@@ -141,14 +114,9 @@ class HttpClient extends HttpManager implements HttpClientInterface
      */
     public function delete(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
-        if (!empty($params)) {
-            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
-        }
-        if (!empty($header)) {
-            $options[HttpEnum::TYPE_HEADERS] = $header;
-        }
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'DELETE', $options);
+        $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
 
+        $response = $this->sendRequest($this->getDriver($driver), $uri, 'DELETE', $options);
         return $response->getBody()->getContents();
     }
 
@@ -164,14 +132,32 @@ class HttpClient extends HttpManager implements HttpClientInterface
      */
     public function options(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
     {
+        $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
+
+        $response = $this->sendRequest($this->getDriver($driver), $uri, 'OPTIONS', $options);
+        return $response->getBody()->getContents();
+    }
+
+    /**
+     * 处理请求参数
+     * @param array $params
+     * @param array $header
+     * @param array $options
+     * @param string $type
+     * @return array
+     */
+    private function optionsHandle(array $params, array $header, array $options, string $type): array
+    {
         if (!empty($params)) {
-            $options[HttpEnum::TYPE_QUERY] = $this->filter($params);
+            $options[$type] = $this->filter($params);
         }
+
         if (!empty($header)) {
             $options[HttpEnum::TYPE_HEADERS] = $header;
         }
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'OPTIONS', $options);
 
-        return $response->getBody()->getContents();
+        return $options;
     }
+
+
 }

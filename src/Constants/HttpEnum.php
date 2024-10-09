@@ -10,4 +10,5 @@ class HttpEnum
     const TYPE_JSON = 'json';
     const TYPE_FORM = 'form_params';
     const TYPE_MULTIPART = 'multipart';
+    const TYPE_BODY = 'body';
 }
