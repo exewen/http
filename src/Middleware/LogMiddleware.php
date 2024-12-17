@@ -49,21 +49,15 @@ class LogMiddleware
     {
         $cost = round(microtime(true) - $start, 3); // 保留3位小数点
         $request->getBody()->rewind();
-        $uri         = $request->getUri();
-        $fullUrl     = $uri->getScheme() . '://' . $uri->getHost() . $uri->getPath();
-        $queryString = $uri->getQuery();
-        if (!empty($queryString)) {
-            $fullUrl .= '?' . $queryString;
-        }
         $log     = [
             'req_cost'          => $cost,
             'method'            => $request->getMethod(),
-            'url'               => $fullUrl,
-            'header'            => json_encode($request->getHeaders(), JSON_UNESCAPED_UNICODE),
+            'url'               => $this->getLogUrl($request),
+            'header'            => $this->getLogHeader($request),
             'request_contents'  => $request->getBody()->getContents(),
             'response_code'     => $response->getStatusCode(),
             'response_cost'     => $cost,
-            'response_header'   => json_encode($response->getHeaders(), JSON_UNESCAPED_UNICODE),
+            'response_header'   => $this->getLogResponseHeader($response),
             'response_contents' => $response->getBody()->getContents(),
         ];
         $response->getBody()->rewind();
@@ -84,13 +78,50 @@ class LogMiddleware
         $log = [
             'req_cost'         => $cost,
             'method'           => $request->getMethod(),
-            'url'              => $request->getUri(),
-            'header'           => $request->getHeaders(),
+            'url'              => $this->getLogUrl($request),
+            'header'           => $this->getLogHeader($request),
             'request_contents' => $request->getBody()->getContents(),
             'response_cost'    => $cost,
             'error_message'    => $errorMsg,
         ];
         $this->logger->error(json_encode($log, JSON_UNESCAPED_UNICODE));
+    }
+
+
+    /**
+     * 获取日志log url
+     * @param RequestInterface $request
+     * @return string
+     */
+    protected function getLogUrl(RequestInterface $request): string
+    {
+        $uri         = $request->getUri();
+        $fullUrl     = $uri->getScheme() . '://' . $uri->getHost() . $uri->getPath();
+        $queryString = $uri->getQuery();
+        if (!empty($queryString)) {
+            $fullUrl .= '?' . $queryString;
+        }
+        return $fullUrl;
+    }
+
+    /**
+     * 获取日志log headers
+     * @param RequestInterface $request
+     * @return string
+     */
+    protected function getLogHeader(RequestInterface $request): string
+    {
+        return json_encode($request->getHeaders(), JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 取日志log response headers
+     * @param ResponseInterface $response
+     * @return string
+     */
+    protected function getLogResponseHeader(ResponseInterface $response): string
+    {
+        return json_encode($response->getHeaders(), JSON_UNESCAPED_UNICODE);
     }
 
 }
