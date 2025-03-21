@@ -2,9 +2,7 @@
 
 namespace Exewen\Http\Middleware;
 
-use Exewen\Di\Container;
 use Exewen\Di\Context\ApplicationContext;
-use Exewen\Facades\AppFacade;
 use Exewen\Logger\Contract\LoggerInterface;
 use Exewen\Logger\Logger;
 use Psr\Http\Message\RequestInterface;
@@ -20,7 +18,7 @@ class LogMiddleware
 
     public function __construct(string $channel, array $config)
     {
-        $this->logger = AppFacade::getContainer()->get(LoggerInterface::class);
+        $this->logger = ApplicationContext::getContainer()->get(LoggerInterface::class);
     }
 
     public function __invoke(callable $handler): callable

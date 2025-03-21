@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace ExewenTest\Http;
 
-use Exewen\Di\Container;
+use Exewen\Di\Context\ApplicationContext;
 use Exewen\Http\Contract\HttpClientInterface;
 use Exewen\Http\HttpProvider;
 use Exewen\Logger\LoggerProvider;
@@ -23,7 +23,7 @@ class HttpTest extends TestCase
         parent::__construct();
         !defined('BASE_PATH_PKG') && define('BASE_PATH_PKG', dirname(__DIR__, 1));
 
-        $app = new Container();
+        $app = ApplicationContext::getContainer();
         // 服务注册
         $app->setProviders([
             LoggerProvider::class,
