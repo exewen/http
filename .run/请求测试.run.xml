@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="请求测试" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+    <TestRunner class="ExewenTest\Http\HttpTest" file="$PROJECT_DIR$/tests/HttpTest.php" scope="Class" />
+    <method v="2" />
+  </configuration>
+</component>
