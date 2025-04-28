@@ -41,7 +41,8 @@ class HttpTest extends TestCase
             'group' => $this->group,
             'tenant' => $this->namespaceId,
         ]);
-        $this->assertNotEmpty($response);
+        $result = $response->getBody()->getContents();
+        $this->assertNotEmpty($result);
     }
 
     public function testPost()
@@ -58,7 +59,8 @@ class HttpTest extends TestCase
                 'ver' => "1.0.0"
             ], JSON_UNESCAPED_UNICODE),
         ]);
-        $this->assertNotEmpty($response);
+        $result = $response->getBody()->getContents();
+        $this->assertNotEmpty($result);
     }
 
 

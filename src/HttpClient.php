@@ -6,6 +6,7 @@ namespace Exewen\Http;
 
 use Exewen\Http\Constants\HttpEnum;
 use Exewen\Http\Contract\HttpClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class HttpClient extends HttpManager implements HttpClientInterface
 {
@@ -17,15 +18,14 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $params
      * @param array $header
      * @param array $options
-     * @return string
+     * @return ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
+    public function get(string $driver, string $uri, array $params = [], array $header = [], array $options = []): ResponseInterface
     {
         $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
 
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'GET', $options);
-        return $response->getBody()->getContents();
+        return $this->sendRequest($this->getDriver($driver), $uri, 'GET', $options);
     }
 
     /**
@@ -35,15 +35,14 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $params
      * @param array $header
      * @param array $options
-     * @return string
+     * @return ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function head(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
+    public function head(string $driver, string $uri, array $params = [], array $header = [], array $options = []): ResponseInterface
     {
         $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
 
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'HEAD', $options);
-        return $response->getBody()->getContents();
+        return $this->sendRequest($this->getDriver($driver), $uri, 'HEAD', $options);
     }
 
     /**
@@ -54,15 +53,14 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $header
      * @param array $options
      * @param string $type json(json) form_params(x-www-form-urlencoded) multipart(multipart/form-data) query headers body
-     * @return string
+     * @return ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
+    public function post(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): ResponseInterface
     {
         $options = $this->optionsHandle($params, $header, $options, $type);
 
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'POST', $options);
-        return $response->getBody()->getContents();
+        return $this->sendRequest($this->getDriver($driver), $uri, 'POST', $options);
     }
 
     /**
@@ -73,15 +71,14 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $header
      * @param array $options
      * @param string $type
-     * @return string
+     * @return ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function put(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
+    public function put(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): ResponseInterface
     {
         $options = $this->optionsHandle($params, $header, $options, $type);
 
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'PUT', $options);
-        return $response->getBody()->getContents();
+        return $this->sendRequest($this->getDriver($driver), $uri, 'PUT', $options);
     }
 
     /**
@@ -92,14 +89,13 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $header
      * @param array $options
      * @param string $type
-     * @return string
+     * @return ResponseInterface
      */
-    public function patch(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): string
+    public function patch(string $driver, string $uri, array $params = [], array $header = [], array $options = [], string $type = HttpEnum::TYPE_JSON): ResponseInterface
     {
         $options = $this->optionsHandle($params, $header, $options, $type);
 
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'PATCH', $options);
-        return $response->getBody()->getContents();
+        return $this->sendRequest($this->getDriver($driver), $uri, 'PATCH', $options);
     }
 
     /**
@@ -110,14 +106,13 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $params
      * @param array $header
      * @param array $options
-     * @return string
+     * @return ResponseInterface
      */
-    public function delete(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
+    public function delete(string $driver, string $uri, array $params = [], array $header = [], array $options = []): ResponseInterface
     {
         $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
 
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'DELETE', $options);
-        return $response->getBody()->getContents();
+        return $this->sendRequest($this->getDriver($driver), $uri, 'DELETE', $options);
     }
 
     /**
@@ -128,14 +123,13 @@ class HttpClient extends HttpManager implements HttpClientInterface
      * @param array $params
      * @param array $header
      * @param array $options
-     * @return string
+     * @return ResponseInterface
      */
-    public function options(string $driver, string $uri, array $params = [], array $header = [], array $options = []): string
+    public function options(string $driver, string $uri, array $params = [], array $header = [], array $options = []): ResponseInterface
     {
         $options = $this->optionsHandle($params, $header, $options, HttpEnum::TYPE_QUERY);
-
-        $response = $this->sendRequest($this->getDriver($driver), $uri, 'OPTIONS', $options);
-        return $response->getBody()->getContents();
+        
+        return $this->sendRequest($this->getDriver($driver), $uri, 'OPTIONS', $options);
     }
 
     /**
